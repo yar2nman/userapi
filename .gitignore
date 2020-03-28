@@ -1,0 +1,4 @@
+.vs
+myvalues.json
+bin/**
+obj/**
