@@ -111,6 +111,10 @@ namespace usersapi.Controllers
             try
             {
                 AspNetUsers user = await _context.AspNetUsers.FindAsync(id);
+                if (user is null)
+                {
+                    throw new System.Exception();
+                }
             }
             catch (System.Exception)
             {
