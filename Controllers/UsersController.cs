@@ -99,6 +99,32 @@ namespace usersapi.Controllers
             return CreatedAtAction("GetAspNetUsers", new { id = aspNetUsers.Id }, aspNetUsers);
         }
 
+
+        // Patch: api/Users/{id}
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchUser([FromRoute] string id, [FromBody] object value) {
+            if (id == "" || id is null)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                AspNetUsers user = await _context.AspNetUsers.FindAsync(id);
+            }
+            catch (System.Exception)
+            {
+                return NotFound();
+            }
+
+            await helper.ApplyPatchAsync(User, value);
+
+            return NoContent();
+
+            
+        }
+        
+
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<AspNetUsers>> DeleteAspNetUsers([FromRoute] string id)
