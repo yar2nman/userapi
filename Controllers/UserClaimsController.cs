@@ -89,7 +89,7 @@ namespace usersapi.Controllers
 
         // DELETE: api/UserClaims/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<AspNetUserClaims>> DeleteAspNetUserClaims(int id)
+        public async Task<ActionResult<AspNetUserClaims>> DeleteAspNetUserClaims([FromRoute] int id)
         {
             var aspNetUserClaims = await _context.AspNetUserClaims.FindAsync(id);
             if (aspNetUserClaims == null)
