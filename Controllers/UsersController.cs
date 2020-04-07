@@ -79,8 +79,15 @@ namespace usersapi.Controllers
 
         // POST: api/Users
         [HttpPost]
-        public async Task<ActionResult<AspNetUsers>> PostAspNetUsers([FromRoute] AspNetUsers aspNetUsers)
+        public async Task<ActionResult<AspNetUsers>> PostAspNetUsers([FromBody] AspNetUsers aspNetUsers)
         {
+            string oldpass = aspNetUsers.PasswordHash;
+            string newpass = IdentityV3PasswordHasher.PasswordHasher.GenerateIdentityV3Hash(oldpass);
+
+            aspNetUsers.PasswordHash = newpass;
+            aspNetUsers.Id = Guid.NewGuid().ToString();
+            aspNetUsers.SecurityStamp = "d4711bf0-fc08-4ad9-9537-c6979605bb92";
+
             _context.AspNetUsers.Add(aspNetUsers);
             try
             {
