@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,6 +34,16 @@ namespace usersapi
                        .AllowAnyHeader();
             }));
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = Configuration["Authority"];
+                    options.Audience = Configuration["Audience"];
+                    options.IncludeErrorDetails = true;
+                    options.SaveToken = true;
+                    
+                });
+
             services.AddControllers();
         }
 
@@ -47,10 +58,13 @@ namespace usersapi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            
+            app.UseAuthentication();
 
             app.UseCors();
 
-            app.UseAuthorization();
+           app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

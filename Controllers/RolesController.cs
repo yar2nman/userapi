@@ -15,6 +15,7 @@ namespace usersapi.Controllers
     [EnableCors("MyCorsPolicy")]
     [Produces("application/json")]
     [Route("api/Roles")]
+    [Authorize]
     public class RolesController : Controller
     {
         usersapi.Models.DataContext _context;
